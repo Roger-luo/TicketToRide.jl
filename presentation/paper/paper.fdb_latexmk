@@ -1,7 +1,7 @@
 # Fdb version 3
-["pdflatex"] 1574713127 "/home/mbeach/TicketToRide.jl/presentation/paper/paper.tex" "/home/mbeach/TicketToRide.jl/presentation/paper/paper.pdf" "paper" 1574713136
+["pdflatex"] 1574713127 "/home/mbeach/TicketToRide.jl/presentation/paper/paper.tex" "/home/mbeach/TicketToRide.jl/presentation/paper/paper.pdf" "paper" 1574714265
   "/home/mbeach/TicketToRide.jl/presentation/paper/paper.aux" 1574713128 375 7a405fc3a7a47e2da391b7d6079f8ac8 ""
-  "/home/mbeach/TicketToRide.jl/presentation/paper/paper.tex" 1574713136 864 6444c06db53cf03b32347505ca071277 ""
+  "/home/mbeach/TicketToRide.jl/presentation/paper/paper.tex" 1574714265 864 6444c06db53cf03b32347505ca071277 ""
   "/usr/share/texmf-dist/fonts/map/fontname/texfonts.map" 1572595918 3332 103109f5612ad95229751940c61aada0 ""
   "/usr/share/texmf-dist/fonts/tfm/public/cm/cmbx12.tfm" 1572595918 1324 c910af8c371558dc20f2d7822f66fe64 ""
   "/usr/share/texmf-dist/fonts/tfm/public/cm/cmbx9.tfm" 1572595918 1328 5442e22a7072966dbaf88ca900acf3f0 ""
@@ -44,10 +44,10 @@
   "/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map" 1573940228 4577254 2def5f39dc30e3952b94480814ba57b6 ""
   "/var/lib/texmf/web2c/pdftex/pdflatex.fmt" 1573940216 8044940 18a8b4b29c4f99627c689350b4d0effe ""
   "paper.aux" 1574713128 375 7a405fc3a7a47e2da391b7d6079f8ac8 "pdflatex"
-  "paper.tex" 1574713136 864 6444c06db53cf03b32347505ca071277 ""
+  "paper.tex" 1574714265 864 6444c06db53cf03b32347505ca071277 ""
   (generated)
-  "/home/mbeach/TicketToRide.jl/presentation/paper/paper.pdf"
-  "paper.aux"
-  "paper.log"
-  "paper.pdf"
   "/home/mbeach/TicketToRide.jl/presentation/paper/paper.log"
+  "paper.pdf"
+  "paper.aux"
+  "/home/mbeach/TicketToRide.jl/presentation/paper/paper.pdf"
+  "paper.log"
