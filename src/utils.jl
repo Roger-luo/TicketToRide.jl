@@ -1,5 +1,4 @@
 using Yao.YaoBlocks.Optimise: simplify
-using DelimitedFiles
 using ProgressMeter
 export simplify
 export neighboring_pairs, heisenberg1D, train!
@@ -25,10 +24,6 @@ function train!(opt, epochs, ham, circuit; verbose=true)
         if verbose
             @info "step=$k"
             @info "E/n=$(E/4n)"
-            open(file * ".txt", "a") do f
-                writedlm(filename,  E/n)
-            end
-
         end
         push!(history, E/4n)
         _, grad = expect'(ham, zero_state(n)=>circuit)

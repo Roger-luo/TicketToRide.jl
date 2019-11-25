@@ -48,18 +48,31 @@ end
 - `nepochs`: the number of epochs of pruning procedure
 - `niteration`: number of iterations for training
 """
-function prune_train(opt, circuit, ham; verbose=false, nprune=10, nepochs=10, niteration=100)
+function prune_train(opt, circuit, ham; verbose=false, nprune=10, nepochs=10, niteration=100, relative_error=true, least_prune=10)
     total_history = Float64[]
     n = nqubits(ham)
-    E0 = eigmin(Matrix(mat(ham)))/4n
+
+    if relative_error
+        E0 = eigmin(Matrix(mat(ham)))/4n
+    end
+
     try
         for k in 1:nepochs
             @info "epoch = $k"
             @info "nparameters = $(nparameters(circuit))"
             history = train!(opt, niteration, ham, circuit; verbose=verbose)
-            append!(history, total_history)
+            append!(total_history, history)
             @info "E/n = $(history[end])"
-            @info "(E - E0)/E0 = $((history[end] - E0)/E0)"
+
+            if relative_error
+                re = (history[end] - E0)/E0
+                @info "(E - E0)/E0 = $re"
+
+                if k > least_prune && re > 1e-2
+                    break
+                end    
+            end
+
             circuit = prune(circuit; threshold=abs(find_smallest(nprune, circuit)));
             circuit = rm_redundant_rotation(circuit);
         end
