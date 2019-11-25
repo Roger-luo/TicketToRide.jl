@@ -5,5 +5,6 @@ using Reexport
 include("utils.jl")
 include("noise.jl")
 include("fake.jl")
+include("prune.jl")
 
 end # module
