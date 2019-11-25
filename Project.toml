@@ -3,6 +3,10 @@ uuid = "41596cda-a148-41ec-8e06-ec16ed077cfb"
 authors = ["Roger-luo"]
 version = "0.1.0"
 
+[deps]
+Yao = "5872b779-8223-5990-8dd0-5abbb0748c8c"
+YaoExtensions = "7a06699c-c960-11e9-3c98-9f78548b5f0f"
+
 [compat]
 julia = "1.2"
 

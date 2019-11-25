@@ -1,5 +1,5 @@
 module TicketToRide
 
-greet() = print("Hello World!")
+using Yao, YaoExtensions
 
 end # module
