@@ -1,4 +1,5 @@
 using Yao.YaoBlocks.Optimise: simplify
+using ProgressMeter
 export simplify
 export neighboring_pairs, heisenberg1D, train!
 
@@ -12,15 +13,18 @@ heisenberg1D(n) = simplify(sum(_heisenberg_S(n, i) for i in 1:n-1))
 
 using Flux.Optimise
 
-function train!(opt, epochs, ham, circuit)
+function train!(opt, epochs, ham, circuit; verbose=true)
     history = Float64[]
     n = nqubits(ham)
-    for k in 1:epochs
+    @showprogress "training" for k in 1:epochs
         # the expectation is calculated on a complex matrix
         # thus we just use the real part here
         E = expect(ham, zero_state(n)=>circuit) |> real
-        @info "step=$k"
-        @info "E/n=$(E/4n)"
+        
+        if verbose
+            @info "step=$k"
+            @info "E/n=$(E/4n)"
+        end
         push!(history, E/4n)
         _, grad = expect'(ham, zero_state(n)=>circuit)
         ps = parameters(circuit)
