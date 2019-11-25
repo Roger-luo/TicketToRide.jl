@@ -1,5 +1,11 @@
 using Distributed
-addprocs(2; exeflags="--project")
+if length(ARGS) < 2
+    error("expect number of qubits and number of random initialized circuits")
+end
+
+n = parse(Int, ARGS[1])
+nrandom_initialize = parse(Int, ARGS[2])
+addprocs(nrandom_initialize; exeflags="--project")
 
 @everywhere begin
 
@@ -34,7 +40,7 @@ function run_task(total, n, nlayers; verbose=false, nprune=10, nepochs=10, niter
     end
 
     min_energy = 0
-    circuit, history = nothing
+    circuit, history = nothing, nothing
     for each in results        
         if each[2][end] < min_energy
             circuit = each[1]
@@ -46,12 +52,10 @@ end
 
 end
 
-run_task(2, 10, 100)
+using JLD2
+c, h = run_task(nrandom_initialize, n, 100; nepochs=10, nprune=50, niteration=1000, least_prune=5)
 
-n = 10
-nlayers = 100
-
-# if the training is not enough we do more in the end to get better
-opt = Optimise.ADAM(0.01)
-train!(opt, 10000, heisenberg1D(n), circuit)
-nparameters(circuit)
+jldopen("data-$n-$nrandom_initialize.jld", "w+") do f
+    f["circuit"] = c
+    f["history"] = h
+end

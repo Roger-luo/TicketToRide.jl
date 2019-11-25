@@ -157,6 +157,12 @@ git-tree-sha1 = "4cfd3d43819228b9e73ab46600d0af0aa5cedceb"
 uuid = "7a1cc6ca-52ef-59f5-83cd-3a7055c09341"
 version = "1.1.0"
 
+[[FileIO]]
+deps = ["Pkg"]
+git-tree-sha1 = "6c976460b85527d22d979682222d36767d95e27f"
+uuid = "5789e2e9-d7fb-5bc7-8068-2c6fae9b9549"
+version = "1.1.0"
+
 [[FillArrays]]
 deps = ["LinearAlgebra", "Random", "SparseArrays"]
 git-tree-sha1 = "de38b0253ade98340fabaf220f368f6144541938"
@@ -189,6 +195,12 @@ version = "1.0.4"
 [[InteractiveUtils]]
 deps = ["Markdown"]
 uuid = "b77e0a4c-d291-57a0-90e8-8db25a27a240"
+
+[[JLD2]]
+deps = ["CodecZlib", "DataStructures", "FileIO", "Mmap", "Pkg", "Printf", "UUIDs"]
+git-tree-sha1 = "bce3df72340c8e03607b118028de22f3e3104f5d"
+uuid = "033835bb-8acc-5ee8-8aae-3f567f8a3819"
+version = "0.1.8"
 
 [[JSON]]
 deps = ["Dates", "Mmap", "Parsers", "Unicode"]
