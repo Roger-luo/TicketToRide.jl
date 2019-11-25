@@ -5,9 +5,9 @@ using Flux
 using Flux.Optimise
 using TicketToRide: train!
 
-Ls = [4,6,8,10,12,14,16,18,20]
+Ls = [4,6,8,10,12,14,16]
 nlayers = [n for n in 100:100:1000]
-repeats = [i for i in 1:10]
+repeats = [i for i in 1:5]
 
 arg = parse(Int, ARGS[1])
 
@@ -33,5 +33,5 @@ file = dir * "layers-$nlayers-r-$r.txt"
 @info file
 
 @time history = train!(opt, 1, ham, circuit; verbose=true)
-history = train!(opt, 500, ham, circuit; verbose=true)
+history = train!(opt, 1000, ham, circuit; verbose=true)
 writedlm(file, history)
