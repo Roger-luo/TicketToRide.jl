@@ -1,29 +1,34 @@
-using TicketToRide, Flux
+using TicketToRide
+using Flux
 using Flux.Optimise
+using TicketToRide: train!
 
-circuit = variational_circuit(10, 20);
-dispatch!(circuit, :random);
-
-h(n, i) = sum(put(n, i=>σ) * put(n, i+1=>σ) for σ in (X, Y, Z))
-heisenberg(n) = simplify(sum(h(n, i) for i in 1:n-1))
-
-function train(opt, epochs)
-    history = Float64[]
-    for k in 1:epochs
-        # the expectation is calculated on a complex matrix
-        # thus we just use the real part here
-        E = expect(heisenberg(10), zero_state(10)=>circuit) |> real
-        @info "step=$k"
-        @info "E=$E"
-        push!(history, E)
-        _, grad = expect'(heisenberg(10), zero_state(10)=>circuit)
-        ps = parameters(circuit)
-        Optimise.update!(opt, ps, grad)
-        popdispatch!(circuit, ps)
+function prune(x::RotationGate; threshold=1e-1)
+    if x.theta < threshold
+        return NoGate()
+    else
+        return x
     end
-    return history
 end
+
+prune(x::AbstractBlock; threshold=1e-1) =
+    chsubblocks(x, prune.(subblocks(x); threshold=threshold))
 
 # TODO: how to prune?
 opt = Optimise.ADAM()
-train(opt, 10)
+circuit = variational_circuit(4, 100);
+dispatch!(circuit, :random);
+train!(opt, 1000, heisenberg1D(4), circuit)
+
+length(filter(x->abs(x)<0.1, parameters(circuit)))/nparameters(circuit)
+
+t = Depolar(0.1, 0.2, 0.3, 0.8)
+rand_state(10) |> repeat(10, Depolar(0.1, 0.2, 0.3, 0.8))
+
+
+using LinearAlgebra
+
+
+M = mat(heisenberg1D(4))/4
+
+eigmin(Matrix(M))/4
