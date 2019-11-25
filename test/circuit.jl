@@ -14,16 +14,21 @@ end
 prune(x::AbstractBlock; threshold=1e-1) =
     chsubblocks(x, prune.(subblocks(x); threshold=threshold))
 
-# TODO: how to prune?
-opt = Optimise.ADAM()
-circuit = variational_circuit(4, 100);
-dispatch!(circuit, :random);
-train!(opt, 1000, heisenberg1D(4), circuit)
 
-length(filter(x->abs(x)<0.1, parameters(circuit)))/nparameters(circuit)
 
-filter(x->abs(x)<0.1, parameters(circuit))
-nparameters(circuit)
-circuit = prune(circuit);
+function prune_train(n, nlayers, nepochs, niteration)
+    opt = Optimise.ADAM()
+    circuit = variational_circuit(n, nlayers);
+    ham = heisenberg1D(n)
+    dispatch!(circuit, :random);
 
-train!(opt, 1000, heisenberg1D(4), circuit)
+    for k in 1:nepochs
+        @info "epoch = $k"
+        @info "nparameters = $(nparameters(circuit))"
+        train!(opt, niteration, ham, circuit)
+        circuit = prune(circuit);
+    end
+    return circuit
+end
+
+prune_train(10, 100, 100, 10)
