@@ -4,8 +4,8 @@
 #SBATCH --mem=10GB
 #SBATCH --time=3:00:00
 #SBATCH --job-name=minimal_VQE_cirq
-#SBATCH --array=1-90
-#SBATCH --output=tfim_data.log
+#SBATCH --array=1-900
+#SBATCH --output=minimal_VQE_cirq.log
 
 module load nixpkgs/16.09 gcc/7.3.0 julia
 

@@ -22,11 +22,11 @@ opt = Optimise.ADAM()
 circuit = variational_circuit(n, nlayers);
 ham = heisenberg1D(n)
 dispatch!(circuit, :random);
-@time history = train!(opt, 1, ham, circuit; verbose=true)
+@time history = train!(opt, 1, ham, circuit; verbose=false)
 
 # make directory if none exists
 dir = "/scratch/mbeach/tickettoride/L-$n/"
 mkpath(dir)
 file = dir * "layers-$nlayers-r-$r.txt" 
 
-history = train!(opt, 200, ham, circuit; verbose=verbose)
+history = train!(opt, 200, ham, circuit; verbose=true, filename=file)
