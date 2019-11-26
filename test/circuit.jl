@@ -64,7 +64,7 @@ using JLD2
 @time c, h = run_task(nprocs(), 10, 2; nepochs=2, nprune=5, niteration=2, least_prune=5)
 c, h = run_task(nprocs(), 10, 100; nepochs=20, nprune=50, niteration=2000, least_prune=5)
 
-jldopen("data-10-10.jld", "w+") do f
+jldopen("reinitialize-data-10-10.jld", "w+") do f
     f["circuit"] = c
     f["history"] = h
 end
