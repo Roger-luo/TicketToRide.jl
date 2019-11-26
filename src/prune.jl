@@ -1,5 +1,5 @@
 using LinearAlgebra
-export prune, rm_redundant_rotation, find_smallest, prune_train
+export prune, prune_parent, rm_redundant_rotation, find_smallest, prune_train
 
 function prune(x::RotationGate; threshold=1e-1)
     if abs(x.theta) < threshold
@@ -12,12 +12,21 @@ end
 prune(x::AbstractBlock; threshold=1e-1) =
     chsubblocks(x, prune.(subblocks(x); threshold=threshold))
 
+prune_parent(c::NoGate, p::RotationGate) = NoGate()
+prune_parent(c::AbstractBlock, p::AbstractBlock) =
+    chsubblocks(p, prune_parent.(subblocks(c), subblocks(p)))
+
 function rm_redundant_rotation(x::ChainBlock{1})
     length(x) === 3 || return x
     # this is an identity
     if tr((mat(x) - IMatrix(2))' * (mat(x) - IMatrix(2))) < 1e-2
         return NoGate()
     end
+
+    if x[2] isa NoGate
+        return Rz(x[1].theta + x[3].theta)
+    end
+    return x
 end
 
 rm_redundant_rotation(x::AbstractBlock) =
