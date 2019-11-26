@@ -15,7 +15,7 @@ heisenberg1D(n) = simplify(sum(_heisenberg_S(n, i) for i in 1:n-1))
 
 using Flux.Optimise
 
-function train!(opt, epochs, ham, circuit; verbose=true)
+function train!(opt, epochs, ham, circuit; verbose=true, Eex=-1000)
     history = Float64[]
     n = nqubits(ham)
     @showprogress for k in 1:epochs
@@ -32,6 +32,10 @@ function train!(opt, epochs, ham, circuit; verbose=true)
         ps = parameters(circuit)
         Optimise.update!(opt, ps, grad)
         popdispatch!(circuit, ps)
+        if E/(4n) < Eex
+            println("EARLY STOPPING!!!")
+            return history
+        end
     end
     return history
 end
