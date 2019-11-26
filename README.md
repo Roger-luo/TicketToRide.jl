@@ -19,6 +19,18 @@ git clone https://github.com/Roger-luo/TicketToRide.jl.git
 
 ## Lyrics for QHACK presentation
 
+Hello, hello, hello!
+
+It's great to come together, right now, over at Xanadu. 
+
+We're The Day Trippers, and we've spent Yesterday and a Hard day's Night working on our (Quantum Lottery) Ticket to Ride project.
+
+It's been a Long and Winding road, and we could easily work on this for the 8 Days a Week, but we have to Let it be and present our work.
+
+**(Matt Presents)**
+
+It's wonderful to be here, it's certainly a thrill! We have such a lovely audience.
+
 (*Sing!*)
 
 
@@ -44,28 +56,11 @@ We've got a ticket to ride
 We've got a ticket to ride
 
 
-But Xanadu don't care
+It's cool software!
 
 
 (*Fin*)
 
-Hello, hello, hello!
-
-It's wonderful to be here, it's certainly a thrill! We have such a lovely audience.
-
-It's great to could come together, right, over at Xanadu. 
-
-We're The DayTrippers, and we've stend the Last Hard day's Night working on our (Quantum Lottery) Ticket to Ride project.
-
-It's been a Long and Winding road, and we could easily work on this for the 8 Days this Week, but we have to Let it be and present our work. 
-
-with a Little Help from our Friends at Xanadu, we
-
-Our idea was to take concepts from the lottery ticket hypothesis and apply them 
-to a variational quantum eigensolver. A lot of machine learning algorithms 
-over-parameterize. Does a VQE circuit also over-parameterize? Can we prune away 
-gates that are doing nothing (approximately)?
-
 ### proof of concept
 Want $N=12$ and nlayers < 200 with energy (relative) < 1.8%. 
-or N=14, 16$ with any number of layers 
+or N=14, 16$ with any number of layers
