@@ -52,10 +52,8 @@ opt = AdamOptimizer(stepsize=0.1)
 steps = 100
 params = starting_angles()
 
-for s in range(steps):
-    
-    #print(opt.step(cost, params))
-    params = opt.step(cost, params)
+print('Step\tEnergy / N')
 
-    print('Step\tEnergy / N')
+for s in range(steps):
+    params = opt.step(cost, params)
     print('{}\t{}'.format(s, cost(params)/(8*N)))
