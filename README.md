@@ -21,8 +21,6 @@ git clone https://github.com/Roger-luo/TicketToRide.jl.git
 
 Hello, hello, hello!
 
-It's great to come together, right now, over at Xanadu. 
-
 We're The Day Trippers, and we've spent Yesterday and a Hard day's Night working on our (Quantum Lottery) Ticket to Ride project.
 
 It's been a Long and Winding road, and we could easily work on this for the 8 Days a Week, but we have to Let it be and present our work.
