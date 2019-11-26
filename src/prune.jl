@@ -16,6 +16,16 @@ prune_parent(c::NoGate, p::RotationGate) = NoGate()
 prune_parent(c::AbstractBlock, p::AbstractBlock) =
     chsubblocks(p, prune_parent.(subblocks(c), subblocks(p)))
 
+
+function rm_cnot(x::ChainBlock{N}) where N
+    x[1] isa ControlBlock || return x
+    ret = copy(x)
+    deleteat!(ret.blocks, rand(1:length(x)))
+    return ret
+end
+
+rm_cnot(x::AbstractBlock) = chsubblocks(x, rm_cnot.(subblocks(x)))
+
 function rm_redundant_rotation(x::ChainBlock{1})
     length(x) === 3 || return x
     # this is an identity
@@ -60,7 +70,7 @@ end
 function prune_train(opt, circuit, ham; verbose=false, nprune=10, nepochs=10, niteration=100, relative_error=true, least_prune=10)
     total_history = Float64[]
     n = nqubits(ham)
-
+    original = copy(circuit)
     if relative_error
         E0 = eigmin(Matrix(mat(ham)))/4n
     end
@@ -84,10 +94,12 @@ function prune_train(opt, circuit, ham; verbose=false, nprune=10, nepochs=10, ni
 
             circuit = prune(circuit; threshold=abs(find_smallest(nprune, circuit)));
             circuit = rm_redundant_rotation(circuit);
+            circuit = copy(prune_parent(circuit, original))
+            circuit = rm_cnot(circuit)
         end
     catch e
         if e isa InterruptException
-            return circuit
+            return circuit, total_history
         else
             rethrow(e)
         end
