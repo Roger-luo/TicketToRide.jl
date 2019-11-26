@@ -1,12 +1,12 @@
 import pennylane as qml
 from pennylane import numpy as np
-from pennylane.optimize import GradientDescentOptimizer
+from pennylane.optimize import AdamOptimizer
 import torch
 
-N = input('N = ')
+N = int(input('N = '))
+nlayers = int(input('# of layers = '))
 
 dev = qml.device('default.qubit', wires=N)
-nlayers = 10
 nparams = 3*N*nlayers 
 
 def starting_angles():
@@ -48,7 +48,7 @@ def cost(params):
     return result 
 
 #opt = qml.QNGOptimizer(stepsize = 0.01)
-opt = GradientDescentOptimizer(0.01)
+opt = AdamOptimizer(stepsize=0.1)
 steps = 100
 params = starting_angles()
 
