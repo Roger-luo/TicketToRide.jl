@@ -1,11 +1,5 @@
 using Distributed
-if length(ARGS) < 2
-    error("expect number of qubits and number of random initialized circuits")
-end
-
-n = parse(Int, ARGS[1])
-nrandom_initialize = parse(Int, ARGS[2])
-addprocs(nrandom_initialize; exeflags="--project")
+addprocs(2; exeflags="--project")
 
 @everywhere begin
 
@@ -17,7 +11,7 @@ using LuxurySparse
 using LinearAlgebra
 
 function task(n, nlayers; verbose=false, nprune=10, nepochs=10, niteration=100, relative_error=true, least_prune=10)
-    opt = Optimise.ADAM()
+    opt = Optimise.Descent(1e-3)
     circuit = variational_circuit(n, nlayers);
     ham = heisenberg1D(n);
     dispatch!(circuit, :random);
@@ -53,9 +47,23 @@ end
 end
 
 using JLD2
-c, h = run_task(nrandom_initialize, n, 100; nepochs=10, nprune=50, niteration=1000, least_prune=5)
+c, h = run_task(4, 10, 100; nepochs=20, nprune=50, niteration=2000, least_prune=5)
 
-jldopen("data-$n-$nrandom_initialize.jld", "w+") do f
+jldopen("data-10-4.jld", "w+") do f
     f["circuit"] = c
     f["history"] = h
 end
+
+# opt = Optimise.Descent(1e-3)
+# circuit = variational_circuit(10, 100);
+# nparameters(circuit)
+# dispatch!(circuit, :random);
+# history = train!(opt, 2000, heisenberg1D(10), circuit; verbose=true)
+# prune_train(opt, circuit, heisenberg1D(10);
+#     nprune=50, nepochs=20,
+#     niteration=500,
+#     relative_error=true,
+#     least_prune=5);
+
+
+# nparameters(circuit)
