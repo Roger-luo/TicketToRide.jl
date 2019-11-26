@@ -1,12 +1,13 @@
 import pennylane as qml
 from pennylane import numpy as np
-from pennylane.optimize import AdamOptimizer
+from pennylane.beta.qnodes import qnode
+from pennylane.optimize import GradientDescentOptimizer
 import torch
 
 N = int(input('N = '))
 nlayers = int(input('# of layers = '))
 
-dev = qml.device('default.qubit', wires=N)
+dev = qml.device('expt.tensornet.tf', wires=N)
 nparams = 3*N*nlayers 
 
 def starting_angles():
@@ -34,7 +35,8 @@ def ansatz(params, nlayers=100):
     for L in range(nlayers):
         layer(params, layer=L)
 
-@qml.qnode(dev)
+#@qml.qnode(dev)
+@qnode(dev, interface="autograd", diff_method="best")
 def circuit(params, i=None, pauli=None):
     ansatz(params, nlayers=nlayers)
     return qml.expval( pauli(i) @ pauli((i+1) % N) )
@@ -48,7 +50,7 @@ def cost(params):
     return result 
 
 #opt = qml.QNGOptimizer(stepsize = 0.01)
-opt = AdamOptimizer(stepsize=0.1)
+opt = GradientDescentOptimizer(stepsize=0.01)
 steps = 100
 params = starting_angles()
 
@@ -56,4 +58,4 @@ print('Step\tEnergy / N')
 
 for s in range(steps):
     params = opt.step(cost, params)
-    print('{}\t{}'.format(s, cost(params)/(8*N)))
+    print('{}\t{}'.format(s+1, cost(params)/(8*N)))
