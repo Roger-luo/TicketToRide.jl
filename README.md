@@ -16,3 +16,9 @@ or just use `git`
 ```jl
 git clone https://github.com/Roger-luo/TicketToRide.jl.git
 ```
+
+### proof of concept
+Want $N=12$ and nlayers < 200 with energy (relative) < 1.8%. 
+or N=14, 16$ with any number of layers 
+
+

@@ -5,8 +5,13 @@ using Flux
 using Flux.Optimise
 using TicketToRide: train!
 
-Ls = [4,6,8,10,12,14,16]
-# nlayers = [n for n in 100:100:1000]
+Exs = [-0.4040063509461097,
+       -0.4155961889813218,
+       -0.42186657483598655,
+        -0.4258035207282875,
+        -0.4285075527367124]
+
+Ls = [4,6,8,10,12]
 nlayers = [10, 50, 100, 200, 500, 1000, 2000, 5000]
 repeats = [i for i in 1:4]
 
@@ -21,18 +26,28 @@ println("nlayers is $nlayers")
 println("r is $r")
 
 # pre-compile once 
-opt = Optimise.Descent(1e-2)
+opt = Optimise.Descent(1e-3)
+# opt = Optimise.ADAMW()
 circuit = variational_circuit(n, nlayers);
 ham = heisenberg1D(n)
 dispatch!(circuit, :random);
 
 # make directory if none exists
-dir = "/scratch/mbeach/new_tickettoride/L-$n/"
+dir = "/scratch/mbeach/new_new_tickettoride/L-$n/"
 mkpath(dir)
 file = dir * "layers-$nlayers-r-$r.txt" 
 
 @info file
 
+ind = findall(x -> x == n, Ls) 
+println(ind)
+
+opt = Optimise.Descent(1e-2)
 @time history = train!(opt, 1, ham, circuit; verbose=true)
-history = train!(opt, 500, ham, circuit; verbose=true)
+history = train!(opt, 2000, ham, circuit; verbose=true, Eex = Exs[ind][1])
 writedlm(file, history)
+
+opt = Optimise.Descent(1e-3)
+history = train!(opt, 2000, ham, circuit; verbose=true, Eex = Exs[ind][1])
+writedlm(file, history)
+

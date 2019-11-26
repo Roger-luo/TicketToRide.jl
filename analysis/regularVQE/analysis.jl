@@ -13,7 +13,7 @@ function read()
                 E = 0
                 try
                     E =
-                    readdlm("/scratch/mbeach/new_tickettoride/L-$L/layers-$nlayer-r-$r.txt")[end]
+                    readdlm("/scratch/mbeach/new_new_tickettoride/L-$L/layers-$nlayer-r-$r.txt")[end]
                 catch
                 end
                 # println(E)
