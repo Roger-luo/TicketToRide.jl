@@ -50,7 +50,7 @@ But Xanadu don't care
 (*Fin*)
 
 Hello, hello, hello!
-We've been working on this idea for approximately 8 days a week. 
+We're the day trippers and We've been working on this idea for approximately 8 days a week. 
 But at this point, we decided to Let it Be and present our work.
 
 Our idea was to take concepts from the lottery ticket hypothesis and apply them 
