@@ -13,15 +13,19 @@ prune(x::AbstractBlock; threshold=1e-1) =
     chsubblocks(x, prune.(subblocks(x); threshold=threshold))
 
 prune_parent(c::NoGate, p::RotationGate) = NoGate()
+
+function prune_parent(c::ChainBlock, p::ChainBlock)
+    c[1] isa ControlBlock && return copy(c)
+    chsubblocks(p, prune_parent.(subblocks(c), subblocks(p)))
+end
+
 prune_parent(c::AbstractBlock, p::AbstractBlock) =
     chsubblocks(p, prune_parent.(subblocks(c), subblocks(p)))
 
-
 function rm_cnot(x::ChainBlock{N}) where N
     x[1] isa ControlBlock || return x
-    ret = copy(x)
-    deleteat!(ret.blocks, rand(1:length(x)))
-    return ret
+    deleteat!(x.blocks, rand(1:length(x)))
+    return x
 end
 
 rm_cnot(x::AbstractBlock) = chsubblocks(x, rm_cnot.(subblocks(x)))
@@ -67,7 +71,7 @@ end
 - `nepochs`: the number of epochs of pruning procedure
 - `niteration`: number of iterations for training
 """
-function prune_train(opt, circuit, ham; verbose=false, nprune=10, nepochs=10, niteration=100, relative_error=true, least_prune=10)
+function prune_train(opt, circuit, ham; verbose=false, nprune=10, nepochs=10, niteration=100, relative_error=true, least_prune=10, cnot_prune=true)
     total_history = Float64[]
     n = nqubits(ham)
     original = copy(circuit)
@@ -95,7 +99,10 @@ function prune_train(opt, circuit, ham; verbose=false, nprune=10, nepochs=10, ni
             circuit = prune(circuit; threshold=abs(find_smallest(nprune, circuit)));
             circuit = rm_redundant_rotation(circuit);
             circuit = copy(prune_parent(circuit, original))
-            circuit = rm_cnot(circuit)
+
+            if cnot_prune
+                circuit = chsubblocks(circuit, rm_cnot.(subblocks(circuit)))
+            end
         end
     catch e
         if e isa InterruptException
