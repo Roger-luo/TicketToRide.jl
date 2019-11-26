@@ -50,8 +50,16 @@ But Xanadu don't care
 (*Fin*)
 
 Hello, hello, hello!
-We're the day trippers and we've been working on this idea for approximately 8 days a week. 
-But at this point, we decided to Let it Be and present our work.
+
+It's wonderful to be here, it's certainly a thrill! We have such a lovely audience.
+
+It's great to could come together, right, over at Xanadu. 
+
+We're The DayTrippers, and we've stend the Last Hard day's Night working on our (Quantum Lottery) Ticket to Ride project.
+
+It's been a Long and Winding road, and we could easily work on this for the 8 Days this Week, but we have to Let it be and present our work. 
+
+with a Little Help from our Friends at Xanadu, we
 
 Our idea was to take concepts from the lottery ticket hypothesis and apply them 
 to a variational quantum eigensolver. A lot of machine learning algorithms 
