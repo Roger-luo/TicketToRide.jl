@@ -30,7 +30,7 @@ function train!(opt, epochs, ham, circuit; verbose=true)
             @info "E/n=$(E/4n)"
         end
         # early stop
-        if abs(history[end] - E/4n) < 1e-6
+        if length(history) > 1 && abs(history[end] - E/4n) < 1e-6
             @info "Early stopping!"
             return history
         end
