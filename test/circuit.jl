@@ -1,5 +1,5 @@
 using Distributed
-addprocs(10; exeflags="--project")
+addprocs(30; exeflags="--project")
 
 @everywhere begin
 
@@ -11,6 +11,16 @@ using LuxurySparse
 using LinearAlgebra
 
 function task(n, nlayers; verbose=false, nprune=10, nepochs=10, niteration=100, relative_error=true, least_prune=10)
+    opt = Optimise.Descent(1e-2)
+    circuit = variational_circuit(n, nlayers);
+    ham = heisenberg1D(n);
+    dispatch!(circuit, :random);
+    circuit, history = prune_train(opt, circuit, ham;
+        nprune=nprune, nepochs=nepochs,
+        niteration=niteration,
+        relative_error=relative_error,
+        least_prune=least_prune);
+
     opt = Optimise.Descent(1e-3)
     circuit = variational_circuit(n, nlayers);
     ham = heisenberg1D(n);
