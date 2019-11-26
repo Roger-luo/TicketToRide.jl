@@ -1,8 +1,8 @@
 using DelimitedFiles
 
-Ls = [4,6,8,10,12,14,16]                                                                                
-nlayers = collect(100:100:1000)
-repeats = [i for i in 1:5]
+Ls = [4,6,8,10,12,14,16]
+nlayers = [10, 50, 100, 200, 500, 1000, 2000, 5000]
+repeats = [i for i in 1:4]
 
 function read()
     Es = zeros(length(Ls), length(nlayers), length(repeats))
@@ -13,7 +13,7 @@ function read()
                 E = 0
                 try
                     E =
-                    readdlm("/scratch/mbeach/tickettoride/L-$L/layers-$nlayer-r-$r.txt")[end]
+                    readdlm("/scratch/mbeach/new_tickettoride/L-$L/layers-$nlayer-r-$r.txt")[end]
                 catch
                 end
                 # println(E)
