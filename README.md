@@ -20,15 +20,33 @@ git clone https://github.com/Roger-luo/TicketToRide.jl.git
 ## Lyrics for QHACK presentation
 
 (*Sing!*)
+
+
 I think I'm gonna be sad
+
+
 QHACK's done today
+
+
 The code that's driving us mad
+
+
 Is done halfway (not really though)
 
+
+
 Ahh we've got a ticket to ride
+
+
 We've got a ticket to ride
+
+
 We've got a ticket to ride
+
+
 But Xanadu don't care
+
+
 (*Fin*)
 
 Hello, hello, hello!
