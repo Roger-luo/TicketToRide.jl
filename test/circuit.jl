@@ -1,5 +1,5 @@
 using Distributed
-addprocs(2; exeflags="--project")
+addprocs(10; exeflags="--project")
 
 @everywhere begin
 
@@ -47,9 +47,9 @@ end
 end
 
 using JLD2
-c, h = run_task(4, 10, 100; nepochs=20, nprune=50, niteration=2000, least_prune=5)
+c, h = run_task(10, 10, 100; nepochs=20, nprune=50, niteration=2000, least_prune=5)
 
-jldopen("data-10-4.jld", "w+") do f
+jldopen("data-10-10.jld", "w+") do f
     f["circuit"] = c
     f["history"] = h
 end
