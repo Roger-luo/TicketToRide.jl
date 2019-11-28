@@ -26,19 +26,25 @@ function train!(opt, epochs, ham, circuit; verbose=true)
         E = expect(ham, zero_state(n)=>circuit) |> real
         
         if verbose
-            @info "step=$k"
-            @info "E/n=$(E/4n)"
+            @info "step=$k, E/n=$(E/4n)"
         end
+
         # early stop
         if length(history) > 1 && abs(history[end] - E/4n) < 1e-6
+            @info "Early stopping 1"
+	    early_stop += 1
+        end
+	if early_stop > 10
             @info "Early stopping!"
             return history
-        end
+	end
         push!(history, E/4n)
         _, grad = expect'(ham, zero_state(n)=>circuit)
         ps = parameters(circuit)
         Optimise.update!(opt, ps, grad)
         popdispatch!(circuit, ps)
+
+
     end
     return history
 end

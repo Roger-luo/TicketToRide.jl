@@ -5,15 +5,15 @@ using Flux
 using Flux.Optimise
 using TicketToRide: train!
 
-Exs = [-0.4040063509461097,
-       -0.4155961889813218,
-       -0.42186657483598655,
-        -0.4258035207282875,
-        -0.4285075527367124]
+# Exs = [-0.4040063509461097,
+       # -0.4155961889813218,
+       # -0.42186657483598655,
+        # -0.4258035207282875,
+        # -0.4285075527367124]
 
-Ls = [4,6,8,10,12]
-nlayers = [10, 50, 100, 200, 500, 1000, 2000, 5000]
-repeats = [i for i in 1:4]
+Ls = [4, 6, 8]
+nlayers = [1:50]
+repeats = [i for i in 1:5]
 
 arg = parse(Int, ARGS[1])
 
@@ -42,12 +42,16 @@ file = dir * "layers-$nlayers-r-$r.txt"
 ind = findall(x -> x == n, Ls) 
 println(ind)
 
-opt = Optimise.Descent(1e-2)
+opt = Optimise.ADAM()
 @time history = train!(opt, 1, ham, circuit; verbose=true)
 history = train!(opt, 2000, ham, circuit; verbose=true, Eex = Exs[ind][1])
 writedlm(file, history)
 
 opt = Optimise.Descent(1e-3)
+history = train!(opt, 2000, ham, circuit; verbose=true, Eex = Exs[ind][1])
+writedlm(file, history)
+
+opt = Optimise.Descent(1e-4)
 history = train!(opt, 2000, ham, circuit; verbose=true, Eex = Exs[ind][1])
 writedlm(file, history)
 
