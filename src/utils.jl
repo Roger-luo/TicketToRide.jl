@@ -20,6 +20,7 @@ function train!(opt, epochs, ham, circuit; verbose=true)
     push!(history, 1000)
 
     n = nqubits(ham)
+    early_stop = 10
     @showprogress for k in 1:epochs
         # the expectation is calculated on a complex matrix
         # thus we just use the real part here
@@ -31,19 +32,18 @@ function train!(opt, epochs, ham, circuit; verbose=true)
 
         # early stop
         if length(history) > 1 && abs(history[end] - E/4n) < 1e-6
-            @info "Early stopping 1"
-	    early_stop += 1
+            @info "Early stopping: $early_stop"
+            early_stop -= 1
         end
-	if early_stop > 10
+        if early_stop < 1
             @info "Early stopping!"
             return history
-	end
+        end
         push!(history, E/4n)
         _, grad = expect'(ham, zero_state(n)=>circuit)
         ps = parameters(circuit)
         Optimise.update!(opt, ps, grad)
         popdispatch!(circuit, ps)
-
 
     end
     return history
